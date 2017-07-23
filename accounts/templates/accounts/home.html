@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+  <meta charset="UTF-8">
+  <title>Chinook API</title>
+
+  <link type="text/css" rel="stylesheet" href={% static 'css/bootstrap.min.css' %} />
+  <style>
+    .header > h1 {
+      margin-top: 10px;
+    }
+
+
+    h3 {
+      background-color: #1b3249;
+      padding: 8px 0 8px 15px;
+      color: #1b8dbb;
+    }
+
+    a:hover, a:visited, a:link, a:active {
+      text-decoration: none;
+    }
+
+
+    pre {
+      background: lightgray;
+      padding-top: 5%;
+      padding-bottom: 5%;
+      opacity: 1;
+    }
+
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .row > [class*='col-'] {
+      display: flex;
+      flex-direction: column;
+    }
+
+    nav  a {
+      color: black;
+    }
+
+    .navbar {
+      border-radius: 0;
+    }
+
+  </style>
+</head>
+<body>
+
+  <nav class="navbar navbar-default" id="navigation-bar">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#nav-col" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+
+      <div class="collapse navbar-collapse" id="nav-col">
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+            <a href="{% url 'accounts:register' %}"> Register  </a>
+        </li>
+        {% if  not request.user.is_authenticated %}
+        <li>
+            <a href="{% url 'rest_framework:login' %}">  Login  </a>
+        </li>
+        {% else %}
+        <li>
+          <a href="{% url 'rest_framework:logout' %}">Logout </a>
+        </li>
+
+        {% endif %}
+      </ul>
+      </div>
+    </div>
+  </nav>
+
+
+
+  <div class="header">
+    <h1 class="text-center">API for Chinook Database</h1>
+  </div>
+
+  <div class="mediatype container-fluid">
+    <a href="#mediatype-collapse"  data-toggle="collapse">
+    <h3>MediaType</h3>
+    </a>
+    <div class="collapse" id="mediatype-collapse">
+    <div class="row">
+      <div class="col-xs-12 col-sm-6">
+      <h4>List View</h4>
+      <p>Endpoint: api/mediatype/</p>
+      <p>Request method: GET</p>
+      <p><pre>
+        [
+          {
+            "id": 1,
+            "name": "MPEG audio file"
+          },
+          ...
+        ]
+        </pre></p>
+        </div>
+      <div class="col-xs-12 col-sm-6">
+      <h4>Detail View</h4>
+      <p>Endpoint: api/mediatype/1</p>
+      <p>Request method: GET</p>
+      <p><pre>
+        {
+          "id": 2,
+          "name": "Protected AAC audio file"
+        }
+      </pre></p>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+      <h4>Posting a Mediatype</h4>
+      <p>Endpoint: api/mediatype/</p>
+      <p>Request method: POST</p>
+      <p><pre>
+        {
+          "name": name
+        }
+      </pre></p>
+      </div>
+      </div>
+      </div>
+  </div>
+
+  <div class="genre container-fluid">
+    <a href="#genre-collapse" data-toggle="collapse">
+    <h3>Genre</h3>
+    </a>
+    <div class="collapse" id="genre-collapse">
+    <div class="row">
+      <div class="col-xs-12 col-sm-6">
+      <h4>List View</h4>
+      <p>Endpoint: api/genres/</p>
+      <p><pre>
+        [
+          {
+            "id": 1,
+            "name": "Rock"
+          },
+          ...
+        ]
+        </pre></p>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+      <h4>Detail View</h4>
+      <p>Endpoint: api/genres/3</p>
+      <p><pre>
+        {
+          "id": 3,
+          "name": "Metal"
+        }
+      </pre></p>
+      </div>
+      </div>
+      </div>
+  </div>
+
+  <div class="album container-fluid">
+    <a href="#album-collapse" data-toggle="collapse">
+    <h3>Album</h3>
+    </a>
+    <div class="collapse" id="album-collapse">
+    <div class="row">
+      <div class="col-xs-12 col-sm-6">
+      <h4>List View</h4>
+      <p>Endpoint: api/albums/</p>
+      <p><pre>
+        [
+          {
+            "id": 1,
+            "name": "Rock"
+          },
+          ...
+        ]
+        </pre></p>
+        </div>
+      <div class="col-xs-12 col-sm-6">
+      <h4>Detail View</h4>
+      <p>Endpoint: api/albums/4</p>
+      <p><pre>
+        {
+          "id": 3,
+          "name": "Metal"
+        }
+      </pre></p>
+      </div>
+      </div>
+      </div>
+  </div>
+  <div class="artist container-fluid">
+    <a href="#artist-collapse" data-toggle="collapse">
+    <h3>Artist</h3>
+    </a>
+    <div class="collapse" id="artist-collapse">
+    <div class="row">
+      <div class="col-xs-12 col-sm-6">
+      <h4>List View</h4>
+      <p>Endpoint: api/artists/</p>
+      <p><pre>
+        [
+          {
+            "id": 1,
+            "name": "AC/DC",
+            "albums": [
+              "1: For Those About To Rock We Salute You",
+              "4: Let There Be Rock",
+              "349: A Whole New Album"
+            ]
+          },
+        ]
+        </pre></p>
+        </div>
+      <div class="col-xs-12 col-sm-6">
+      <h4>Detail View</h4>
+      <p>Endpoint: api/artists/4</p>
+      <p><pre>
+        {
+          "id": 4,
+          "name": "Alanis Morissette",
+          "albums": [
+            "6: Jagged Little Pill"
+          ]
+        }
+      </pre></p>
+      </div>
+      </div>
+      </div>
+  </div>
+  <div class="track container-fluid">
+    <a href="#track-collapse" data-toggle="collapse">
+    <h3>Track</h3>
+    </a>
+    <div class="collapse" id="track-collapse">
+    <div class="row">
+      <div class="col-xs-12 col-sm-6">
+      <h4>List View</h4>
+      <p>Endpoint: api/tracks/</p>
+      <p><pre>
+        This endpoint is paginated and default is first page, you can change the
+        page size(no. of track entries), page number with 'page', 'page_size' as
+        query parameters
+        [Example: /api/tracks/?page=2&page_size=50 will return entries 51-100]
+
+        {
+          "count": 3500,
+          "next": "http://127.0.0.1:8000/api/tracks/?page=2",
+          "previous": null,
+          "results": [
+            {
+              "id": 4,
+              "album": {
+                "id": 3,
+                "title": "Restless and Wild"
+              },
+              "playlist": [
+                "1: Music",
+                "5: 90’s Music",
+                "8: Music",
+                "17: Heavy Metal Classic"
+              ],
+              "name": "Restless and Wild",
+              "composer": "F. Baltes, R.A. Smith-Diesel, S. Kaufman",
+              "milliseconds": 252051,
+              "bytes": 4331779,
+              "unit_price": "0.99",
+              "mediatype": 2,
+              "genre": 1
+            },
+              ...
+          ]
+        }
+        </pre></p>
+        </div>
+      <div class="col-xs-12 col-sm-6">
+      <h4>Detail View</h4>
+      <p>Endpoint: api/tracks/4</p>
+      <p><pre>
+      {
+        "id": 5,
+        "album": {
+          "id": 3,
+          "title": "Restless and Wild"
+        },
+        "playlist": [
+          "1: Music",
+          "5: 90’s Music",
+          "8: Music",
+          "17: Heavy Metal Classic"
+        ],
+        "name": "Princess of the Dawn",
+        "composer": "Deaffy & R.A. Smith-Diesel",
+        "milliseconds": 375418,
+        "bytes": 6290521,
+        "unit_price": "0.99",
+        "mediatype": 2,
+        "genre": 1
+    }
+      </pre></p>
+      </div>
+      </div>
+      </div>
+  </div>
+
+  <div class="playlist container-fluid">
+    <a href="#playlist-collapse" data-toggle="collapse">
+    <h3>Playlists <span></span></h3>
+    </a>
+    <div class="collapse" id="playlist-collapse">
+    <div class="row">
+      <div class="col-xs-12 col-sm-6">
+      <h4>List View</h4>
+      <p>Endpoint: api/playlists/</p>
+      <p>Request method: GET</p>
+      <p><pre>
+        [
+          {
+            "id": 16,
+            "name": "Grunge",
+            "tracks": [
+              "52: Man In The Box",
+              "2003: Smells Like Teen Spirit",
+              "2004: In Bloom",
+              "2005: Come As You Are",
+              "2007: Lithium",
+              "2010: Drain You",
+              "2013: On A Plain",
+              "2194: Evenflow",
+              "2195: Alive",
+              ....
+            ]
+          },
+          ....
+        ]
+        </pre>
+        </p>
+        </div>
+      <div class="col-xs-12 col-sm-6">
+      <h4>Detail View</h4>
+      <p>Endpoint: api/playlists/17</p>
+      <p>Request method: GET</p>
+      <p><pre>
+{
+    "id": 17,
+    "name": "Heavy Metal Classic",
+    "tracks": [
+        "4: Restless and Wild",
+        "5: Princess of the Dawn",
+        "152: N.I.B.",
+        "160: Supernaut",
+        "1278: Wrathchild",
+        "1283: Killers",
+        "1335: Where Eagles Dare",
+        "1345: 2 Minutes To Midnight",
+        "1380: Wasted Years",
+        "1392: Run to the Hills",
+        "1801: Enter Sandman",
+        "1830: The Four Horsemen",
+        ....
+    ]
+}
+      </pre></p>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <h4>Posting a new Playlist</h4>
+        <p>Endpoint:  api/playlists/</p>
+        <p>Request method: POST</p>
+        <p><pre>
+        {
+          "name": "Playlist by x",
+          "tracks": [4,5,6]
+        }
+        </pre></p>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <h4>Updating a playlist</h4>
+        <p>Endpoint: api/playlists/27  (Number represents the id of playlist you want to modify)</p>
+        <p>Request method: PUT</p>
+        <p><pre>
+        Request format:
+        {
+          "name": "Playlist by x",
+          "tracks": [4,5,6]
+        }
+
+        Response format:
+
+      </pre></p>
+      </div>
+      </div>
+      </div>
+  </div>
+
+<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+</body>
+</html>

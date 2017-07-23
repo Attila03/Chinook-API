@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+{% load crispy_forms_tags %}
+<head>
+  <meta charset="UTF-8">
+  <title>Chinook API</title>
+  <link type="text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+
+  <style>
+    #logged_in_msg{
+      margin-top: 5%;
+      font-size: 2em;
+    }
+
+    .register-form {
+      margin-top: 5%;
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="navbar navbar-default" id="navigation-bar">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#nav-col" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+
+      <div class="collapse navbar-collapse" id="nav-col">
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+            <a href="{% url 'accounts:register' %}"> Register  </a>
+        </li>
+        {% if  not request.user.is_authenticated %}
+        <li>
+            <a href="{% url 'rest_framework:login' %}">  Login  </a>
+        </li>
+        {% else %}
+        <li>
+          <a href="{% url 'rest_framework:logout' %}">Logout </a>
+        </li>
+
+        {% endif %}
+      </ul>
+      </div>
+    </div>
+  </nav>
+
+
+{% if user.is_authenticated %}
+<div class = "container" id="logged_in_msg">
+    <div class="row">
+        <div class="col-xs-6 col-xs-offset-3 text-center">
+            <p>You are already logged in as {{ user.username }}.</p>
+            <p>Logout if you want to register/login as another user.</p>
+        </div>
+    </div>
+</div>
+
+{% else %}
+<div class="container-fluid register-form">
+    <div class="row">
+        <div class="col-xs-4 col-xs-offset-4 text-center">
+            <form method="post">
+                {% csrf_token %}
+                <legend><strong>REGISTER</strong></legend>
+                {{form | crispy}}
+                <button type="submit" class="btn btn-primary center-block">Register</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+</body>
