@@ -12,3 +12,5 @@ requests==2.18.1
 urllib3==1.21.1
 virtualenv==15.1.0
 whitenoise==3.3.0
+dj-database-url==0.4.2
+
