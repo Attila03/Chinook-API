@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
+from django.db.models import Q
 
 from rest_framework import generics
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
@@ -47,12 +48,19 @@ class MediaTypeDetailView(generics.RetrieveDestroyAPIView):
 
 class TrackListView(generics.ListAPIView):
 
-    queryset = Track.objects.all()
     serializer_class = TrackGETSerializer
     pagination_class = TrackPagination
+    permission_classes = [IsAdminOrReadOnly]
 
-    # def filter_queryset(self, queryset):
-    #     return queryset.filter(name__icontains=' For')
+    def get_queryset(self, *args, **kwargs):
+        #print(self.request.GET)
+        queryset_list = Track.objects.all()
+        query = self.request.GET.get("q")
+        if query:
+            return queryset_list.filter(
+                Q(name__icontains=query)
+            )
+        return super(TrackListView, self).get_queryset(*args, **kwargs)
 
 
 class TrackDetailView(generics.RetrieveAPIView):
