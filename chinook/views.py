@@ -1,16 +1,14 @@
-from django.shortcuts import render
-from django.contrib.auth.models import User
 from django.db.models import Q
 
 from rest_framework import generics
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
+from rest_framework import filters
 
 from .serializers import (TrackGETSerializer,  AlbumGETSerializer,
                           AlbumPOSTSerializer, ArtistGETSerializer, ArtistListSerializer,
                           GenreSerializer, MediaTypeSerializer, PlaylistGETSerializer, PlaylistPOSTSerializer)
 from .models import (Artist, Album, Customer, Employee, Genre,
                       Invoice, Invoiceline, MediaType, Playlist, PlaylistTrack, Track)
-
 from .pagination import TrackPagination
 from .permissions import IsAdminOrReadOnly, IsOwnerOrReadOnly, SAFE_METHODS
 
@@ -21,7 +19,7 @@ class GenreListView(generics.ListCreateAPIView):
 
     queryset = Genre.objects.all()
     serializer_class = GenreSerializer
-    permission_classes = [IsAdminOrReadOnly]
+    permission_classes = [IsAuthenticated]
 
 
 class GenreDetailView(generics.RetrieveUpdateDestroyAPIView):
@@ -29,7 +27,7 @@ class GenreDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Genre.objects.all()
     serializer_class = GenreSerializer
     permission_classes = [IsAdminOrReadOnly]
-
+    
 
 # Media
 
@@ -48,31 +46,36 @@ class MediaTypeDetailView(generics.RetrieveDestroyAPIView):
 
 class TrackListView(generics.ListAPIView):
 
+    queryset = Track.objects.all()
     serializer_class = TrackGETSerializer
     pagination_class = TrackPagination
     permission_classes = [IsAdminOrReadOnly]
+    filter_backends = (filters.SearchFilter, )
+    search_fields = ['name']
 
     def get_queryset(self, *args, **kwargs):
         #print(self.request.GET)
-        queryset_list = Track.objects.all()
+        queryset_list = super(TrackListView, self).get_queryset(*args, **kwargs)
         query = self.request.GET.get("q")
         if query:
             return queryset_list.filter(
                 Q(name__icontains=query)
             )
-        return super(TrackListView, self).get_queryset(*args, **kwargs)
+        return queryset_list
 
 
 class TrackDetailView(generics.RetrieveAPIView):
 
     queryset = Track.objects.all()
     serializer_class = TrackGETSerializer
+    permission_classes = [IsAdminOrReadOnly]
 
 
 class AlbumDetailView(generics.RetrieveUpdateDestroyAPIView):
 
     queryset = Album.objects.all()
     serializer_class = AlbumGETSerializer
+    permission_classes = [IsAdminOrReadOnly]
 
     def get_serializer_class(self):
 
@@ -92,6 +95,9 @@ class AlbumListView(generics.ListCreateAPIView):
 
     queryset = Album.objects.all()
     serializer_class = AlbumGETSerializer
+    permission_classes = [IsAdminOrReadOnly]
+    filter_backends = (filters.SearchFilter, )
+    search_fields = ['title', 'artist__name']
 
     def get_serializer_class(self):
 
@@ -111,12 +117,14 @@ class ArtistDetailView(generics.RetrieveAPIView):
 
     queryset = Artist.objects.all()
     serializer_class = ArtistGETSerializer
+    permission_classes = [IsAdminOrReadOnly]
 
 
 class ArtistListView(generics.ListAPIView):
 
     queryset = Artist.objects.all()
     serializer_class = ArtistGETSerializer
+    permission_classes = [IsAdminOrReadOnly]
 
 
 class PlaylistDetailView(generics.RetrieveUpdateDestroyAPIView):

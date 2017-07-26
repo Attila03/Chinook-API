@@ -86,7 +86,7 @@ class Invoice(models.Model):
 class Invoiceline(models.Model):
     id = models.AutoField(primary_key=True)
     invoice = models.ForeignKey("Invoice")
-    track = models.ForeignKey("Track")
+    track = models.ForeignKey("Track", null=True, on_delete=models.SET_NULL)
     unit_price = models.DecimalField(max_digits=5, decimal_places=2)
     quantity = models.IntegerField()
 

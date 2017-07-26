@@ -1,0 +1,51 @@
+.header > h1 {
+  margin-top: 10px;
+}
+
+
+.resource-heading {
+  background-color: #1f7e9a;
+  padding: 8px 0 8px 15px;
+  color: #1b3249;
+}
+
+a:hover, a:visited, a:link, a:active {
+  text-decoration: none;
+}
+
+
+pre {
+  background-color: #4cae4c;
+}
+
+/*pre {*/
+  /*background: lightgray;*/
+  /*padding-top: 5%;*/
+  /*padding-bottom: 5%;*/
+  /*opacity: 1;*/
+/*}*/
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.row > [class*='col-'] {
+  display: flex;
+  flex-direction: column;
+}
+
+nav  a {
+  color: black;
+}
+
+.navbar {
+  border-radius: 0;
+}
+
+
+.browsable-api, .json-api {
+  font-size: 1.2em;
+  padding-left: 15px;
+}
+

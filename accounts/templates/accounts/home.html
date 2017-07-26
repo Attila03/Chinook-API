@@ -5,54 +5,12 @@
   <meta charset="UTF-8">
   <title>Chinook API</title>
 
-  <link type="text/css" rel="stylesheet" href={% static 'css/bootstrap.min.css' %} />
-  <style>
-    .header > h1 {
-      margin-top: 10px;
-    }
-
-
-    h3 {
-      background-color: #1b3249;
-      padding: 8px 0 8px 15px;
-      color: #1b8dbb;
-    }
-
-    a:hover, a:visited, a:link, a:active {
-      text-decoration: none;
-    }
-
-
-    pre {
-      background: lightgray;
-      padding-top: 5%;
-      padding-bottom: 5%;
-      opacity: 1;
-    }
-
-    .row {
-      display: flex;
-      flex-wrap: wrap;
-    }
-
-    .row > [class*='col-'] {
-      display: flex;
-      flex-direction: column;
-    }
-
-    nav  a {
-      color: black;
-    }
-
-    .navbar {
-      border-radius: 0;
-    }
-
-  </style>
+  <link type="text/css" rel="stylesheet" href={% static 'css/slatebootstrap.min.css' %} />
+  <link type="text/css" rel="stylesheet" href={% static 'css/home.css' %} />
 </head>
 <body>
 
-  <nav class="navbar navbar-default" id="navigation-bar">
+  <nav class="navbar navbar-inverse" id="navigation-bar">
     <div class="container-fluid">
       <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#nav-col" aria-expanded="false">
@@ -74,7 +32,7 @@
         </li>
         {% else %}
         <li>
-          <a href="{% url 'rest_framework:logout' %}">Logout </a>
+          <a href="{% url 'accounts:logout' %}">Logout </a>
         </li>
 
         {% endif %}
@@ -86,12 +44,74 @@
 
 
   <div class="header">
-    <h1 class="text-center">API for Chinook Database</h1>
+    <h1 class="text-center">Chinook Database API</h1>
   </div>
 
-  <div class="mediatype container-fluid">
+  <div class="container">
+      <div  id="authentication">
+        <h2 class="text-center">Authentication</h2>
+        <p class="browsable-api">For browsable api you can simply register, and login.</p>
+        <p class="json-api">For accessing api through programs, you can use either basic authentication or token based authentication</p>
+        <ul>
+          <li>
+            <h4>Basic Authentication</h4>
+            <p>
+              Requires username and password to be passed as headers with key as "Authorization" and value as
+              "Basic << base64 encoded username:password>>" (Whitespace between Basic and encoded username/password).
+            </p>
+             <p> Using python requests library : </p>
+              <pre class="auth-code"><code>
+>>> import requests
+>>> from requests.auth import HTTPBasicAuth
+>>> r = requests.get("https://chinookrest.herokuapp.com/api/genres/1", auth=HTTPBasicAuth('username', 'password'))
+>>> r.json()
+{'name': 'Rock', 'id': 1}
+              </code></pre>
+            <p> Using Curl: </p>
+            <pre class="auth-code"><code>
+curl -u username:password https://chinookrest.herokuapp.com/api/tracks/
+              OR
+curl -H "Authorization: Basic YXBpdXNlcjphcGlwd2Q=" ....
+  where YXBpdXNlcjphcGlwd2Q= represents base64 encoded username:password.
+            </code></pre>
+          </li>
+          <li>
+            <h4>Token Authentication</h4>
+            <p>Get a token using your username and password and use the token to access the api.</p>
+            <p>To get the token, post json data to <code>https://chinookrest.herokuapp.com/api-token-auth/</code>
+              with username, password as keys and thier respective values.
+            </p>
+            <p>Using python requests library: </p>
+            <pre><code>
+>>> import requests
+>>> r = requests.post("https://chinookrest.herokuapp.com/api-token-auth/", data={"username":username, "password": password})
+>>> r.json()
+{'token': token_value }
+            </code></pre>
+            <p>Using curl: </p>
+            <pre><code>
+curl -X POST -H "Content-Type: application/json" -d '{"username": username, "password":password}' "https://chinookrest.herokuapp.com/api-token-auth/"
+
+Response: {"token": token_value }
+            </code></pre>
+            <h4>Refreshing Token </h4>
+            <pre><code>
+>>> r = requests.post("http://localhost:8000/api-token-refresh/", data={"username":username, "password":password})
+>>> r.json()
+{'token': token_value}
+            </code></pre>
+          </li>
+        </ul>
+        <p></p>
+      </div>
+  </div>
+
+
+<h3 class="text-center">Resources</h3>
+
+  <div class="mediatype container">
     <a href="#mediatype-collapse"  data-toggle="collapse">
-    <h3>MediaType</h3>
+    <h3 class="text-center resource-heading">MediaType</h3>
     </a>
     <div class="collapse" id="mediatype-collapse">
     <div class="row">
@@ -134,9 +154,9 @@
       </div>
   </div>
 
-  <div class="genre container-fluid">
+  <div class="genre container">
     <a href="#genre-collapse" data-toggle="collapse">
-    <h3>Genre</h3>
+    <h3 class="text-center resource-heading">Genre</h3>
     </a>
     <div class="collapse" id="genre-collapse">
     <div class="row">
@@ -167,9 +187,9 @@
       </div>
   </div>
 
-  <div class="album container-fluid">
+  <div class="album container">
     <a href="#album-collapse" data-toggle="collapse">
-    <h3>Album</h3>
+    <h3 class="text-center resource-heading">Album</h3>
     </a>
     <div class="collapse" id="album-collapse">
     <div class="row">
@@ -199,9 +219,10 @@
       </div>
       </div>
   </div>
-  <div class="artist container-fluid">
+
+  <div class="artist container">
     <a href="#artist-collapse" data-toggle="collapse">
-    <h3>Artist</h3>
+    <h3 class="text-center resource-heading">Artist</h3>
     </a>
     <div class="collapse" id="artist-collapse">
     <div class="row">
@@ -238,9 +259,10 @@
       </div>
       </div>
   </div>
-  <div class="track container-fluid">
+
+  <div class="track container">
     <a href="#track-collapse" data-toggle="collapse">
-    <h3>Track</h3>
+    <h3 class="text-center resource-heading">Track</h3>
     </a>
     <div class="collapse" id="track-collapse">
     <div class="row">
@@ -313,9 +335,9 @@
       </div>
   </div>
 
-  <div class="playlist container-fluid">
+  <div class="playlist container">
     <a href="#playlist-collapse" data-toggle="collapse">
-    <h3>Playlists <span></span></h3>
+    <h3 class="text-center resource-heading">Playlists</h3>
     </a>
     <div class="collapse" id="playlist-collapse">
     <div class="row">
