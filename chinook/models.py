@@ -57,7 +57,7 @@ class Employee(models.Model):
     email = models.CharField(max_length=60, blank=True, null=True)
 
     def __str__(self):
-        return "{} {]".format(self.lastname, self.firstname)
+        return "{} {}".format(self.lastname, self.firstname)
 
 
 class Genre(models.Model):
