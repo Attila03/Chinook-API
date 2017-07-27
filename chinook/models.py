@@ -68,32 +68,6 @@ class Genre(models.Model):
         return "{}".format(self.name)
 
 
-class Invoice(models.Model):
-    id = models.AutoField(primary_key=True)
-    customer = models.ForeignKey("Customer")
-    invoicedate = models.DateTimeField()
-    billingaddress = models.CharField(max_length=70, blank=True, null=True)
-    billingcity = models.CharField(max_length=40, blank=True, null=True)
-    billingstate = models.CharField(max_length=40, blank=True, null=True)
-    billingcountry = models.CharField(max_length=40, blank=True, null=True)
-    billingpostalcode = models.CharField(max_length=10, blank=True, null=True)
-    total = models.TextField()
-
-    def __str__(self):
-        return "{} {}".format(self.id, self.customer)
-
-
-class Invoiceline(models.Model):
-    id = models.AutoField(primary_key=True)
-    invoice = models.ForeignKey("Invoice")
-    track = models.ForeignKey("Track", null=True, on_delete=models.SET_NULL)
-    unit_price = models.DecimalField(max_digits=5, decimal_places=2)
-    quantity = models.IntegerField()
-
-    def __str__(self):
-        return "{} {} {}".format(self.track, self.invoice, self.unit_price)
-
-
 class MediaType(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=120)

@@ -8,7 +8,7 @@ from .serializers import (TrackGETSerializer,  AlbumGETSerializer,
                           AlbumPOSTSerializer, ArtistGETSerializer, ArtistListSerializer,
                           GenreSerializer, MediaTypeSerializer, PlaylistGETSerializer, PlaylistPOSTSerializer)
 from .models import (Artist, Album, Customer, Employee, Genre,
-                      Invoice, Invoiceline, MediaType, Playlist, PlaylistTrack, Track)
+                     MediaType, Playlist, PlaylistTrack, Track)
 from .pagination import TrackPagination
 from .permissions import IsAdminOrReadOnly, IsOwnerOrReadOnly, SAFE_METHODS
 

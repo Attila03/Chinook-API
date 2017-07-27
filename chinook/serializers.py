@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import (Artist, Album, Customer, Employee, Genre,
-                     Invoice, Invoiceline, MediaType, Playlist, PlaylistTrack, Track)
+                     MediaType, Playlist, PlaylistTrack, Track)
 
 
 # GENRE
