@@ -19,47 +19,6 @@ class Artist(models.Model):
         return "{}".format(self.name)
 
 
-class Customer(models.Model):
-    id = models.AutoField(primary_key=True)
-    firstname = models.CharField(max_length=40)
-    lastname = models.CharField(max_length=20)
-    company = models.CharField(max_length=80, blank=True, null=True)
-    address = models.CharField(max_length=70, blank=True, null=True)
-    city = models.CharField(max_length=40, blank=True, null=True)
-    state = models.CharField(max_length=40, blank=True, null=True)
-    country = models.CharField(max_length=40, blank=True, null=True)
-    postalcode = models.CharField(max_length=10, blank=True, null=True)
-    phone = models.CharField(max_length=24, blank=True, null=True)
-    fax = models.CharField(max_length=24, blank=True, null=True)
-    email = models.CharField(max_length=60)
-    support_rep = models.ForeignKey("Employee", null=True, blank=True, on_delete=models.SET_NULL)
-
-    def __str__(self):
-        return "{} {}".format(self.lastname, self.firstname)
-
-
-# noinspection PyShadowingBuiltins
-class Employee(models.Model):
-    id = models.AutoField(primary_key=True)
-    lastname = models.CharField(max_length=20)
-    firstname = models.CharField(max_length=20)
-    title = models.CharField(max_length=30, blank=True, null=True)
-    reports_to = models.ForeignKey("Employee", null=True, blank=True, on_delete=models.SET_NULL)
-    birthdate = models.DateTimeField(null=True, blank=True)
-    hiredate = models.DateTimeField(null=True, blank=True)
-    address = models.CharField(max_length=70, blank=True, null=True)
-    city = models.CharField(max_length=40, blank=True, null=True)
-    state = models.CharField(max_length=40, blank=True, null=True)
-    country = models.CharField(max_length=40, blank=True, null=True)
-    postalcode = models.CharField(max_length=10, blank=True, null=True)
-    phone = models.CharField(max_length=24, blank=True, null=True)
-    fax = models.CharField(max_length=24, blank=True, null=True)
-    email = models.CharField(max_length=60, blank=True, null=True)
-
-    def __str__(self):
-        return "{} {}".format(self.lastname, self.firstname)
-
-
 class Genre(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=120)

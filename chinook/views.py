@@ -7,7 +7,7 @@ from rest_framework import filters
 from .serializers import (TrackGETSerializer,  AlbumGETSerializer,
                           AlbumPOSTSerializer, ArtistGETSerializer, ArtistListSerializer,
                           GenreSerializer, MediaTypeSerializer, PlaylistGETSerializer, PlaylistPOSTSerializer)
-from .models import (Artist, Album, Customer, Employee, Genre,
+from .models import (Artist, Album, Genre,
                      MediaType, Playlist, PlaylistTrack, Track)
 from .pagination import TrackPagination
 from .permissions import IsAdminOrReadOnly, IsOwnerOrReadOnly, SAFE_METHODS
